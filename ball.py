@@ -15,11 +15,7 @@ class Ball:
         self.shape.collision_type = 1
         self.shape.filter = pymunk.ShapeFilter(group=1)
         self.shape.color = (255, 0, 0, 255)
-        space.add(self.body, self.shape)
-        
-    def render(self, space):
-        space.add(self.body, self.shape)
-        
+        space.add(self.body, self.shape)      
         
     def collide(self, arbiter, space, data):
         del self

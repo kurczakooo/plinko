@@ -48,7 +48,6 @@ def main():
                 money -= 10
                 
         for ball in balls:
-            #ball.render(space)
             if ball.body.position.y > 720:
                 balls.remove(ball)
                 money *= 20
