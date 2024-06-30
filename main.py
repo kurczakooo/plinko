@@ -38,6 +38,8 @@ def main():
     #for i, handler in enumerate(handlers):
     #    handler.separate = balls[i].collide
 
+    balls_worth = 10
+
     while running:
         
         for event in pygame.event.get():
@@ -45,12 +47,12 @@ def main():
                 running = False
             if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and money >= 10:
                 balls.append(Ball(12, (640, 50), space))
-                money -= 10
+                money -= balls_worth
                 
         for ball in balls:
             if ball.body.position.y > 720:
                 balls.remove(ball)
-                money *= 20
+                money += 20 * balls_worth
         
         #print(f'balls: {len(balls)}')
         
