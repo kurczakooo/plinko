@@ -31,7 +31,9 @@ def main():
     #draw_options.shape_kinematic_color = (0, 255, 0, 255)
   
     balls = []
-    pins, pins_pos = create_board(space, layers)
+    #pins, pins_pos = create_board(space, layers)
+    board = 
+    
     boxes = create_bottom_layer(screen, space, layers=layers, pins_pos=pins_pos)
     
     #handlers = [space.add_collision_handler(1, i+2) for i in range(1)]
