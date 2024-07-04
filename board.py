@@ -4,7 +4,8 @@ class GameBoard:
     def __init__(self, screen,  number_of_layers, space):
         self.screen = screen
         self.radius = 5
-        self.number_of_layers = number_of_layers
+        self.layers = number_of_layers
+        self.space = space
         self.pins_pos = []
         self.pins = []
 

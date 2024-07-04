@@ -34,44 +34,6 @@ def create_static_circle(space, position, radius):
     return shape
 
     
-def create_board(space, layers):
-    if layers < 8 or layers > 16:
-        raise ValueError("Number of layers must be between 8 and 16")
-    
-    pins = []
-    pins_pos = []
-    pin_num_per_layer = 3
-    initial_pos = [640, 80]
-    spacing = 40
-    
-    for layer in range(layers):
-        start_x = initial_pos[0] - (pin_num_per_layer - 1) * (spacing / 2)
-        for i in range(pin_num_per_layer):
-            pos = (start_x + i * spacing, initial_pos[1])
-            pins_pos.append(pos)
-            pins.append(create_static_circle(space, pos, 5))
-        initial_pos[1] += spacing
-        pin_num_per_layer += 1
-        
-    return pins, pins_pos
-
-
-def create_bottom_multiplier_box(screen, space, pos, layers, width = 40, height = 20):
-    #these are all offsets from the center of the rectangle, and pos is the center
-    vertices = [(0, height*2),         #bottom left
-                (width, height*2),   #bottom right
-                (width, height/2),   #top roght
-                (0, height/2)]         #top left
-    
-    body = pymunk.Body(body_type= pymunk.Body.STATIC)
-    body.position = pos
-    shape = pymunk.Poly(body, vertices)
-    shape.color = calculate_box_color(screen, layers, pos)
-    shape.collision_type = 2
-    #shape.filter = pymunk.ShapeFilter(group=1)
-    space.add(body, shape)
-    return shape
-    
     
 def calculate_box_color(screen, layers, pos) -> tuple:
     red = 0
