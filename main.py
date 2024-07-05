@@ -1,7 +1,9 @@
-from ball import pygame, pymunk, random, Ball, create_board, create_bottom_layer, display_wallet
+from ball import pygame, pymunk, Ball, display_wallet
 from collision_handler import collide
 from board import GameBoard
-    
+from multiplier_boxes import MultiplierBoxes
+import sys 
+
 """    
 TO DO:
     - make ball not collide woth each other
@@ -10,7 +12,7 @@ TO DO:
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
 """ 
-import sys 
+
 def main():
     
     money = 1000
@@ -35,7 +37,8 @@ def main():
     board = GameBoard(screen, layers, space)
     board.create_board()
     
-    boxes = create_bottom_layer(screen, space, layers=layers, pins_pos=board.pins_pos)
+    boxes = MultiplierBoxes(space, screen, layers)
+    boxes.create_bottom_layer(board.pins_pos)
     
     #handlers = [space.add_collision_handler(1, i+2) for i in range(1)]
     #for i, handler in enumerate(handlers):
