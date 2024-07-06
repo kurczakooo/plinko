@@ -1,7 +1,6 @@
 import pygame
 import pymunk, pymunk.pygame_util
 import random
-import math
                  
                  
 class Ball:
@@ -25,9 +24,3 @@ class Ball:
 
     
         
-def display_wallet(screen, pos, amount):
-    font = pygame.font.SysFont("Times New Roman", 40, True, False)
-    
-    surface = font.render(amount, True, (255, 255, 255))
-
-    screen.blit(surface, pos)

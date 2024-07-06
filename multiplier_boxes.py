@@ -1,4 +1,5 @@
-import pymunk, pymunk.pygame_util
+from ball import pymunk
+import pymunk.pygame_util
 
 class MultiplierBoxes :
     

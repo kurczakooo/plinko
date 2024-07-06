@@ -1,7 +1,8 @@
-from ball import pygame, pymunk, Ball, display_wallet
+from ball import pygame, pymunk, Ball
 from collision_handler import collide
 from board import GameBoard
 from multiplier_boxes import MultiplierBoxes
+from wallet import Wallet
 import sys 
 
 """    
@@ -14,8 +15,6 @@ https://www.youtube.com/watch?v=cCiXqK9c18g&t
 """ 
 
 def main():
-    
-    money = 1000
     
     layers = int(sys.argv[1])
 
@@ -44,6 +43,8 @@ def main():
     #for i, handler in enumerate(handlers):
     #    handler.separate = balls[i].collide
 
+    wallet = Wallet(screen, (100, 100), 1000)
+
     balls_worth = 10
 
     while running:
@@ -51,20 +52,19 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and money >= 10:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and wallet.balance >= balls_worth:
                 balls.append(Ball(12, (640, 50), space))
-                money -= balls_worth
+                wallet.buy_ball(balls_worth)
                 
         for ball in balls:
             if ball.body.position.y > 720:
                 balls.remove(ball)
-                money += 20 * balls_worth
+                wallet.balance += 20 * balls_worth
         
         #print(f'balls: {len(balls)}')
         
         screen.fill((0, 0, 0))
-        display_wallet(screen, (100, 100), str(money))
-
+        wallet.display_wallet()
         space.step(1/60.0)
         space.debug_draw(draw_options)
         pygame.display.flip()
