@@ -10,6 +10,7 @@ class MultiplierBoxes :
         self.width = 40
         self.height = 20
         
+        self.boxes_positions = []
         self.boxes = []
         
     def create_bottom_multiplier_box(self, pos):
@@ -51,6 +52,13 @@ class MultiplierBoxes :
         
         return (red, green, blue, alpha)
         
+    
+    def calculate_multipliers(self):
+        multipliers = {}
+        for i in range(len(self.boxes)):
+            multipliers.update(("debil", 7))
+            
+    
         
     def create_bottom_layer(self, pins_pos):
         spacing = 40
@@ -62,7 +70,7 @@ class MultiplierBoxes :
         local_pos[0] -= 40
         
         for i in range(number_of_boxes):
-            #print(local_pos)
+            self.boxes_positions.append(local_pos[0])
             self.boxes.append(self.create_bottom_multiplier_box(local_pos))
             #IF CHECKING BALL Y POS DOESNT WORK, THEN MAKE FIRST AND LAST BOX LONGER, BUT IT
             #FUCKS WITH COLORS  

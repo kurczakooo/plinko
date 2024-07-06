@@ -7,9 +7,10 @@ import sys
 
 """    
 TO DO:
-    - make ball not collide woth each other
     - make it so holding space spams balls
     - make layer with mulitipliers
+        - figure out calculate multipliers function, needd boxes pos, and find proportions be
+        tween neighbouring boxes multipliers
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
 """ 
@@ -43,7 +44,7 @@ def main():
     #for i, handler in enumerate(handlers):
     #    handler.separate = balls[i].collide
 
-    wallet = Wallet(screen, (100, 100), 1000)
+    wallet = Wallet(screen, (50, 50), 1000)
 
     balls_worth = 10
 
@@ -59,19 +60,22 @@ def main():
         for ball in balls:
             if ball.body.position.y > 720:
                 balls.remove(ball)
-                wallet.balance += 20 * balls_worth
+                wallet.update_balance(balls_worth, 20)
         
         #print(f'balls: {len(balls)}')
         
         screen.fill((0, 0, 0))
-        wallet.display_wallet()
-        space.step(1/60.0)
         space.debug_draw(draw_options)
+        wallet.display_wallet()
+        
+        
         pygame.display.flip()
+        space.step(1/60.0)
         clock.tick(60)
         
     pygame.quit()
-    
+    #boxes.calculate_multipliers()
+    print(boxes.boxes_positions)
     
 if __name__ == '__main__':
     main()
