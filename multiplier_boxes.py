@@ -12,6 +12,8 @@ class MultiplierBoxes :
         
         self.boxes_positions = []
         self.boxes = []
+        self.multipliers = {}
+        
         
     def create_bottom_multiplier_box(self, pos):
         #these are all offsets from the center of the rectangle, and pos is the center
@@ -54,9 +56,9 @@ class MultiplierBoxes :
         
     
     def calculate_multipliers(self):
-        multipliers = {}
-        for i in range(len(self.boxes)):
-            multipliers.update(("debil", 7))
+        for i in range(len(self.boxes_positions)):
+            self.multipliers.update({f'szmata{i}' : 1})
+
             
     
         
@@ -70,7 +72,6 @@ class MultiplierBoxes :
         local_pos[0] -= 40
         
         for i in range(number_of_boxes):
-            self.boxes_positions.append(local_pos[0])
             self.boxes.append(self.create_bottom_multiplier_box(local_pos))
             #IF CHECKING BALL Y POS DOESNT WORK, THEN MAKE FIRST AND LAST BOX LONGER, BUT IT
             #FUCKS WITH COLORS  
@@ -80,5 +81,6 @@ class MultiplierBoxes :
             #    local_pos[0] += 500
             #elif i == number_of_boxes - 1:
             #    create_bottom_multiplier_box(screen, space, local_pos, 500)
+            self.boxes_positions.append(local_pos.copy())
             local_pos[0] +=  spacing
             

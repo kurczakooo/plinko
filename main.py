@@ -10,7 +10,8 @@ TO DO:
     - make it so holding space spams balls
     - make layer with mulitipliers
         - figure out calculate multipliers function, needd boxes pos, and find proportions be
-        tween neighbouring boxes multipliers
+        tween neighbouring boxes multipliers, i need to differ the boxes with a value signed to
+        each other
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
 """ 
@@ -74,8 +75,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    #boxes.calculate_multipliers()
-    print(boxes.boxes_positions)
+    boxes.calculate_multipliers()
+    print(boxes.multipliers)
     
 if __name__ == '__main__':
     main()
