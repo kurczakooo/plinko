@@ -27,7 +27,7 @@ class MultiplierBoxes :
         shape = pymunk.Poly(body, vertices)
         shape.color = self.calculate_box_color(pos)
         shape.collision_type = 2
-        #shape.filter = pymunk.ShapeFilter(group=1)
+        shape.filter = pymunk.ShapeFilter(group=2)
         self.space.add(body, shape)
         return shape
        
