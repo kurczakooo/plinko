@@ -14,6 +14,7 @@ TO DO:
         each other
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
+15.40
 """ 
 
 def main():
@@ -41,9 +42,8 @@ def main():
     boxes = MultiplierBoxes(space, screen, layers)
     boxes.create_bottom_layer(board.pins_pos)
     
-    #handlers = [space.add_collision_handler(1, i+2) for i in range(1)]
-    #for i, handler in enumerate(handlers):
-    #    handler.separate = balls[i].collide
+    handler = space.add_collision_handler(1, 2) 
+    handler.begin = collide
 
     wallet = Wallet(screen, (50, 50), 1000)
 

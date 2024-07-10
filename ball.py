@@ -10,7 +10,7 @@ class Ball:
         self.body.velocity = (random.uniform(-10, 10), 0)
         self.shape = pymunk.Circle(self.body, radius)
         self.shape.elasticity = 0.85
-        
+
         self.shape.friction = 0.5
         self.shape.collision_type = 1
         self.shape.filter = pymunk.ShapeFilter(group=1)

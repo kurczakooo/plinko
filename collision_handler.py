@@ -1,5 +1,8 @@
 
+chuj = []
+
 def collide(arbiter, space, data) -> bool:
-    print("KOLIZJA")
+    chuj.append(1)
+    print(len(chuj))     
     return True
 
