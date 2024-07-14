@@ -1,7 +1,8 @@
 from ball import pygame, pymunk, Ball
 from collision_handler import collide
 from board import GameBoard
-from multiplier_boxes import MultiplierBoxes
+from multiplier_box import Multiplierbox
+from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 import sys 
 
@@ -39,7 +40,7 @@ def main():
     board = GameBoard(screen, layers, space)
     board.create_board()
     
-    boxes = MultiplierBoxes(space, screen, layers)
+    boxes = MultiplierBoxesLayer(space, screen, layers)
     boxes.create_bottom_layer(board.pins_pos)
     
     handler = space.add_collision_handler(1, 2) 

@@ -1,7 +1,7 @@
 from ball import pymunk
 import pymunk.pygame_util
 
-class MultiplierBoxes :
+class MultiplierBoxesLayer :
     
     def __init__(self, space, screen, layers):
         self.space = space
@@ -25,9 +25,11 @@ class MultiplierBoxes :
         body = pymunk.Body(body_type= pymunk.Body.STATIC)
         body.position = pos
         shape = pymunk.Poly(body, vertices)
+        shape.elasticity = 0
+        shape.friction = 1
         shape.color = self.calculate_box_color(pos)
         shape.collision_type = 2
-        #shape.filter = pymunk.ShapeFilter(group=2)
+        #shape.filter = pymunk.ShapeFilter(group=1)
         self.space.add(body, shape)
         return shape
        
