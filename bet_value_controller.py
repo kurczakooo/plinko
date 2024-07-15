@@ -17,9 +17,9 @@ class Button:
         pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height), 0)
         
         if self.text != '':
-            font = pygame.font.SysFont('comicsans', 60)
+            font = pygame.font.SysFont('Arial', 50)
             text = font.render(self.text, 1, (0, 0, 0))
-            win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/2)))
+            win.blit(text, (self.x + (self.width/2 - text.get_width()/2), self.y + (self.height/2 - text.get_height()/1.85)))
 
     def isOver(self, pos):
         # Pos is the mouse position or a tuple of (x, y) coordinates
@@ -31,13 +31,32 @@ class Button:
 
 
 class BetValueController:
-    def __init__(self, pos, initial_bet_value):
+    def __init__(self, screen, pos, initial_bet_value):
+        self.screen = screen
         self.pos = pos
-        self.lower_button = Button([100, 100, 100], self.pos[0], self.pos[1], 100, 70,"-")
-        self.raise_button = Button([100, 100, 100], self.pos[0], self.pos[1], 100, 70,"+")
+        self.lower_button = Button([100, 100, 100], self.pos[0], self.pos[1], 50, 30,"-")
+        self.raise_button = Button([100, 100, 100], self.pos[0] + 150, self.pos[1], 50, 30,"+")
+
         self.bet_value = initial_bet_value
+        self.max_bet = 1000
         
     def display(self):
-        font = pygame.font.SysFont("Arial", 40, True, False)
-        surface = font.render(str(self.balance) + "$", True, (255, 255, 255))
-        self.screen.blit(surface, self.pos)
+        num_of_chars = len(str(self.bet_value))
+        gap = 1
+        if num_of_chars == 1:
+            gap = 85
+        elif num_of_chars == 2:
+            gap = 80
+        elif num_of_chars == 3:
+            gap = 70
+        elif num_of_chars == 4:
+            gap = 65
+        else:
+            raise ValueError("Max Bet Amount exceeded")
+        
+        font = pygame.font.SysFont("Arial", 25, True, False)
+        surface = font.render(str(self.bet_value) + "$", True, (255, 255, 255))
+        self.screen.blit(surface, [self.pos[0] + gap, self.pos[1]])
+        
+        self.lower_button.draw(self.screen)
+        self.raise_button.draw(self.screen)

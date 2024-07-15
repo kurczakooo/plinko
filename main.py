@@ -3,6 +3,7 @@ from board import GameBoard
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 from win_history_display import WinHistoryDisplay
+from bet_value_controller import BetValueController
 import sys 
 
 """    
@@ -39,6 +40,9 @@ boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
+ball_value_controller = BetValueController(screen, [1055, 675], 1000)
+
+
 
 def collide(arbiter, space, data) -> bool: 
     
@@ -67,7 +71,7 @@ def main():
     last_ball_time = 0
     ball_interval = 200
     
-    wallet = Wallet(screen, (1100, 10), 1000)
+    wallet = Wallet(screen, 1000)
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
@@ -100,6 +104,7 @@ def main():
         space.debug_draw(draw_options)
         wallet.display_wallet()
         win_history.display()
+        ball_value_controller.display()
         for box in boxes.boxes:
             box.display_multiplier()
         
