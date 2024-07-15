@@ -1,5 +1,4 @@
 from ball import pygame, pymunk, Ball
-from collision_handler import collide
 from board import GameBoard
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
@@ -7,7 +6,6 @@ import sys
 
 """    
 TO DO:
-    - make it so holding space spams balls
     - make layer with mulitipliers
         - figure out calculate multipliers function, needd boxes pos, and find proportions be
         tween neighbouring boxes multipliers, i need to differ the boxes with a value signed to
@@ -17,55 +15,83 @@ https://www.youtube.com/watch?v=cCiXqK9c18g&t
 15.40
 """ 
 
+layers = int(sys.argv[1])
+
+pygame.init()
+screen = pygame.display.set_mode((1280, 720))
+pygame.display.set_caption('PLINKO')
+clock = pygame.time.Clock()
+
+space = pymunk.Space()
+space.gravity = (0, 900)
+
+draw_options = pymunk.pygame_util.DrawOptions(screen)
+#draw_options.shape_outline_color = draw_options.collision_point_color
+#draw_options.shape_kinematic_color = (0, 255, 0, 255)
+
+board = GameBoard(screen, layers, space)
+board.create_board()
+
+boxes = MultiplierBoxesLayer(space, screen, layers)
+boxes.create_bottom_layer(board.pins_pos)
+
+
+
+def collide(arbiter, space, data) -> bool: 
+    
+    ball_shape, box_shape = arbiter.shapes
+    ball_body = ball_shape.body
+    box_body = box_shape.body
+    
+    space.remove(ball_body, ball_shape)
+    
+    for box in boxes.boxes:
+        if box.shape.collision_type == box_shape.collision_type:
+            print(box.multiplier, end=" ")
+    
+    return True
+
+
+
+
+
 def main():
-    
-    layers = int(sys.argv[1])
-
-    pygame.init()
-    screen = pygame.display.set_mode((1280, 720))
-    pygame.display.set_caption('PLINKO')
-    clock = pygame.time.Clock()
-    running = True
-
-    space = pymunk.Space()
-    space.gravity = (0, 900)
-
-    draw_options = pymunk.pygame_util.DrawOptions(screen)
-    #draw_options.shape_outline_color = draw_options.collision_point_color
-    #draw_options.shape_kinematic_color = (0, 255, 0, 255)
-    
   
     balls = []
-
-    board = GameBoard(screen, layers, space)
-    board.create_board()
+    balls_worth = 10
     
-    boxes = MultiplierBoxesLayer(space, screen, layers)
-    boxes.create_bottom_layer(board.pins_pos)
+    #vars for holding space spawning balls
+    last_ball_time = 0
+    ball_interval = 200
+    
+    wallet = Wallet(screen, (50, 50), 1000)
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
         handler.begin = collide
 
-    wallet = Wallet(screen, (50, 50), 1000)
 
-    balls_worth = 10
-
+    running = True
     while running:
+        current_time = pygame.time.get_ticks()
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and wallet.balance >= balls_worth:
+         
+        #holding space        
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and wallet.balance >= balls_worth:
+            if current_time - last_ball_time >= ball_interval:
                 balls.append(Ball(12, (640, 50), space))
-                wallet.buy_ball(balls_worth)
+                wallet.buy_ball(balls_worth)   
+                last_ball_time = current_time         
+               
                 
         for ball in balls:
             if ball.body.position.y > 720:
                 balls.remove(ball)
-                wallet.update_balance(balls_worth, 20)
-        
-        #print(f'balls: {len(balls)}')
+
         
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)

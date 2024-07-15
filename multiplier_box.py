@@ -10,7 +10,7 @@ class MultiplierBox:
         self.height = height
         self.pos = pos
         
-        self.multiplier = collision_type
+        self.multiplier = chr(collision_type + 95)
 
         self.vertices = [(0, self.height*2),         #bottom left
             (self.width, self.height*2),   #bottom right
