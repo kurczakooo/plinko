@@ -9,7 +9,7 @@ class Wallet:
 
 
     def display_wallet(self):
-        font = pygame.font.SysFont("Times New Roman", 40, True, False)
+        font = pygame.font.SysFont("Arial", 40, True, False)
         
         surface = font.render(str(self.balance), True, (255, 255, 255))
 

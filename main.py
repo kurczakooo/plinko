@@ -1,7 +1,6 @@
 from ball import pygame, pymunk, Ball
 from collision_handler import collide
 from board import GameBoard
-from multiplier_box import Multiplierbox
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 import sys 
@@ -34,6 +33,7 @@ def main():
     draw_options = pymunk.pygame_util.DrawOptions(screen)
     #draw_options.shape_outline_color = draw_options.collision_point_color
     #draw_options.shape_kinematic_color = (0, 255, 0, 255)
+    
   
     balls = []
 
@@ -43,8 +43,9 @@ def main():
     boxes = MultiplierBoxesLayer(space, screen, layers)
     boxes.create_bottom_layer(board.pins_pos)
     
-    handler = space.add_collision_handler(1, 2) 
-    handler.begin = collide
+    for i in range(boxes.number_of_boxes):
+        handler = space.add_collision_handler(1, i + 2) 
+        handler.begin = collide
 
     wallet = Wallet(screen, (50, 50), 1000)
 
@@ -69,6 +70,8 @@ def main():
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)
         wallet.display_wallet()
+        for box in boxes.boxes:
+            box.display_multiplier()
         
         
         pygame.display.flip()
@@ -76,8 +79,6 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    boxes.calculate_multipliers()
-    print(boxes.multipliers)
     
 if __name__ == '__main__':
     main()
