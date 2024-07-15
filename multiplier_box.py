@@ -55,6 +55,7 @@ class MultiplierBox:
         for i in range(len(self.boxes_positions)):
             self.multipliers.update({f'szmata{i}' : 1})
             
+            
     def display_multiplier(self):
         font = pygame.font.SysFont("Arial", 20, True, False)
         

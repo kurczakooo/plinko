@@ -2,14 +2,16 @@ from ball import pygame, pymunk, Ball
 from board import GameBoard
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
+from win_history_display import WinHistoryDisplay
 import sys 
 
 """    
 TO DO:
-    - make layer with mulitipliers
-        - figure out calculate multipliers function, needd boxes pos, and find proportions be
-        tween neighbouring boxes multipliers, i need to differ the boxes with a value signed to
-        each other
+    - figure out calculate multipliers function, needd boxes pos, and find proportions be
+    tween neighbouring boxes multipliers, i need to differ the boxes with a value signed to
+    each other
+    - give player ability to change number of layers in game
+    - make a display and button for controlling balls worth
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
 15.40
@@ -35,6 +37,7 @@ board.create_board()
 boxes = MultiplierBoxesLayer(space, screen, layers)
 boxes.create_bottom_layer(board.pins_pos)
 
+win_history = WinHistoryDisplay(space, screen, 300, 500)
 
 
 def collide(arbiter, space, data) -> bool: 
@@ -64,7 +67,7 @@ def main():
     last_ball_time = 0
     ball_interval = 200
     
-    wallet = Wallet(screen, (50, 50), 1000)
+    wallet = Wallet(screen, (1100, 10), 1000)
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
@@ -96,6 +99,7 @@ def main():
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)
         wallet.display_wallet()
+        win_history.display()
         for box in boxes.boxes:
             box.display_multiplier()
         

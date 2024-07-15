@@ -11,7 +11,7 @@ class Wallet:
     def display_wallet(self):
         font = pygame.font.SysFont("Arial", 40, True, False)
         
-        surface = font.render(str(self.balance), True, (255, 255, 255))
+        surface = font.render(str(self.balance) + "$", True, (255, 255, 255))
 
         self.screen.blit(surface, self.pos)
   
