@@ -19,7 +19,7 @@ def generate_hist():
     plt.bar(keys, values, color='skyblue')
     plt.xlabel('boxes')
     plt.ylabel('amount of balls')
-    plt.title('Histogram for betting results analisys')
+    plt.title('Histogram of betting results')
     plt.show()
     
     

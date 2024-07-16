@@ -1,5 +1,6 @@
 from ball import pygame, pymunk, Ball
 from board import GameBoard
+from boundaries import Boundaries
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 from win_history_display import WinHistoryDisplay
@@ -37,6 +38,8 @@ draw_options = pymunk.pygame_util.DrawOptions(screen)
 board = GameBoard(screen, layers, space)
 board.create_board()
 
+boundaries = Boundaries(space)
+
 boxes = MultiplierBoxesLayer(space, screen, layers)
 boxes.create_bottom_layer(board.pins_pos)
 
@@ -44,7 +47,7 @@ win_history = WinHistoryDisplay(space, screen, 300, 500)
 
 ball_value_controller = BetValueController(screen, [1055, 600], 1000)
 
-hist = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0, 's':0}
+hist = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0}
 
 def collide(arbiter, space, data) -> bool: 
     
@@ -70,9 +73,9 @@ def main():
     
     #vars for holding space spawning balls
     last_ball_time = 0
-    ball_interval = 50
+    ball_interval = 1 #200
     
-    wallet = Wallet(screen, 10000)
+    wallet = Wallet(screen, 100000) #1000
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 

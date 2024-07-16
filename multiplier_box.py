@@ -2,16 +2,18 @@ from ball import pymunk, pygame
 
 class MultiplierBox:
     
-    def __init__(self, space, screen, layers, width, height, pos, collision_type):
+    def __init__(self, space, screen, layers, width, height, pos, collision_type, is_outer):
         self.space = space
         self.screen = screen
         self.layers = layers
         self.width = width
         self.height = height
         self.pos = pos
+        self.is_outer = is_outer
+        self.collision_type = collision_type
         
-        self.multiplier = chr(collision_type + 95)
-
+        self.multiplier = self.calculate_multipliers()
+        
         self.vertices = [(0, self.height*2),         #bottom left
             (self.width, self.height*2),   #bottom right
             (self.width, self.height/2),   #top roght
@@ -22,11 +24,11 @@ class MultiplierBox:
         self.shape = pymunk.Poly(self.body, self.vertices)
         self.shape.elasticity = 0
         self.shape.friction = 1
-        self.shape.color = self.calculate_box_color(pos)
+        self.shape.color = (0, 0, 255, 255) if self.is_outer else self.calculate_box_color(pos)
         self.shape.collision_type = collision_type
-        #shape.filter = pymunk.ShapeFilter(group=1)
         self.space.add(self.body, self.shape)
         
+    
     
     def calculate_box_color(self, pos) -> tuple:
         red = 0
@@ -37,9 +39,6 @@ class MultiplierBox:
         center_x = self.screen.get_width()/2 - 20 #should be 360 if the screen is 720 wide
         
         distance_from_center = abs(center_x - pos[0])
-        
-        if distance_from_center >= 300:
-            return (0, 0, 255, alpha)
         
         if self.layers < 10:
             red = int(255 - distance_from_center)
@@ -53,17 +52,21 @@ class MultiplierBox:
         
         return (red, green, blue, alpha)
         
+        
     
     def calculate_multipliers(self):
-        for i in range(len(self.boxes_positions)):
-            self.multipliers.update({f'szmata{i}' : 1})
-            
+        #if self.is_outer:
+        #    return '20x'
+        #else:
+            return chr(self.collision_type + 95)
+          
+          
             
     def display_multiplier(self):
         font = pygame.font.SysFont("Arial", 20, True, False)
         
         surface = font.render(str(self.multiplier), True, (255, 255, 255))
 
-        center_pos = [self.pos[0] + 10, self.pos[1] + 15]
+        center_pos = [self.pos[0] +  self.width/2, self.pos[1] + self.height/2]
 
         self.screen.blit(surface, center_pos)

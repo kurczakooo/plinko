@@ -22,16 +22,14 @@ class MultiplierBoxesLayer :
         local_pos[0] -= spacing
         
         for i in range(self.number_of_boxes):
-            #IF CHECKING BALL Y POS DOESNT WORK, THEN MAKE FIRST AND LAST BOX LONGER, BUT IT
-            #FUCKS WITH COLORS  
             if i == 0:
-                local_pos[0] -= 200
-                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40 + 200, 20, local_pos.copy(), i + 2))
-                local_pos[0] += 200
+                local_pos[0] -= 500
+                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40 + 500, 20, local_pos.copy(), i + 2, True))
+                local_pos[0] += 500
             elif i == self.number_of_boxes - 1:
-                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40, 20, local_pos.copy(), i + 2))
+                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40 + 500, 20, local_pos.copy(), i, True))
             else:
-                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40, 20, local_pos.copy(), i + 2))
+                self.boxes.append(MultiplierBox(self.space, self.screen, self.layers, 40, 20, local_pos.copy(), i + 1, False))
             
             
             local_pos[0] +=  spacing
