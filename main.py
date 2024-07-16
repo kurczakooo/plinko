@@ -4,7 +4,9 @@ from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 from win_history_display import WinHistoryDisplay
 from bet_value_controller import BetValueController
+
 import sys 
+import betting_data_analisys.betting_data_analisys as bda
 
 """    
 TO DO:
@@ -40,9 +42,9 @@ boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
-ball_value_controller = BetValueController(screen, [1055, 675], 1000)
+ball_value_controller = BetValueController(screen, [1055, 600], 1000)
 
-
+hist = {'a':0, 'b':0, 'c':0, 'd':0, 'e':0, 'f':0, 'g':0, 'h':0, 'i':0, 'j':0, 'k':0, 'l':0, 'm':0, 'n':0, 'o':0, 'p':0, 'q':0, 'r':0, 's':0}
 
 def collide(arbiter, space, data) -> bool: 
     
@@ -54,11 +56,10 @@ def collide(arbiter, space, data) -> bool:
     
     for box in boxes.boxes:
         if box.shape.collision_type == box_shape.collision_type:
-            print(box.multiplier, end=" ")
+            #print(box.multiplier, end=" ")
+            hist[box.multiplier] += 1
     
     return True
-
-
 
 
 
@@ -69,9 +70,9 @@ def main():
     
     #vars for holding space spawning balls
     last_ball_time = 0
-    ball_interval = 200
+    ball_interval = 50
     
-    wallet = Wallet(screen, 1000)
+    wallet = Wallet(screen, 10000)
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
@@ -103,7 +104,7 @@ def main():
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)
         wallet.display_wallet()
-        win_history.display()
+        #win_history.display()
         ball_value_controller.display()
         for box in boxes.boxes:
             box.display_multiplier()
@@ -114,6 +115,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
+    bda.put_hist_in_csv(hist)
+    bda.generate_hist()
     
 if __name__ == '__main__':
     main()

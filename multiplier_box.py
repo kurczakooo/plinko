@@ -38,6 +38,9 @@ class MultiplierBox:
         
         distance_from_center = abs(center_x - pos[0])
         
+        if distance_from_center >= 300:
+            return (0, 0, 255, alpha)
+        
         if self.layers < 10:
             red = int(255 - distance_from_center)
             green = int(distance_from_center)
