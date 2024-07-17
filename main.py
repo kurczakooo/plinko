@@ -4,7 +4,7 @@ from boundaries import Boundaries
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 from win_history_display import WinHistoryDisplay
-from bet_value_controller import BetValueController
+from bet_value_controller import BetValueController, update_bet_value
 
 import sys 
 import betting_data_analisys.betting_data_analisys as bda
@@ -94,7 +94,7 @@ for box in boxes.boxes:
 def main():
   
     balls = []
-    balls_worth = 10
+    balls_worth = 10.0
     
     #vars for holding space spawning balls
     last_ball_time = 0
@@ -119,7 +119,7 @@ def main():
             if event.type == pygame.USEREVENT:##########################################
                 if event.user_type == gui.UI_BUTTON_PRESSED:
                     if event.ui_element == submit_button:
-                        print(input_box.get_text())
+                        balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance)
 
             manager.process_events(event)
 
@@ -154,8 +154,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    #bda.put_hist_in_csv(hist)
-    #bda.generate_hist()
+    bda.put_hist_in_csv(hist)
+    bda.generate_hist()
     
 if __name__ == '__main__':
     main()
