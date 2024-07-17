@@ -8,6 +8,7 @@ from bet_value_controller import BetValueController
 
 import sys 
 import betting_data_analisys.betting_data_analisys as bda
+import pygame_gui as gui
 
 """    
 TO DO:
@@ -45,8 +46,7 @@ boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
-ball_value_controller = BetValueController(screen, [1055, 600], 1000)
-
+#ball_value_controller = BetValueController(screen, [1055, 600], 1000)
 
 
 def collide(arbiter, space, data) -> bool: 
@@ -63,6 +63,28 @@ def collide(arbiter, space, data) -> bool:
             hist[box.multiplier] += 1
     
     return True
+
+
+
+
+
+
+# Manager GUI
+manager = gui.UIManager((1280, 720))
+
+# Pole tekstowe
+input_rect = pygame.Rect(1030, 680, 140, 32)
+input_box = gui.elements.UITextEntryLine(relative_rect=input_rect, manager=manager)
+
+# Przycisk
+submit_button = gui.elements.UIButton(relative_rect=pygame.Rect(1170, 680, 100, 32), 
+                                                    text='Submit', manager=manager)
+
+#Przyciski od layers
+amount_of_layers_buttons = []
+for i in range(8, 17):
+    amount_of_layers_buttons.append(gui.elements.UIButton(relative_rect=pygame.Rect(1230, 50*(i-7)+50, 50, 50), text=str(i), manager=manager))
+
 
 
 hist = {}
@@ -84,15 +106,25 @@ def main():
         handler = space.add_collision_handler(1, i + 2) 
         handler.begin = collide
 
+    time_delta = clock.tick(30) / 1000.0
 
     running = True
     while running:
         current_time = pygame.time.get_ticks()
         
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-         
+            if event.type == pygame.USEREVENT:##########################################
+                if event.user_type == gui.UI_BUTTON_PRESSED:
+                    if event.ui_element == submit_button:
+                        print(input_box.get_text())
+
+            manager.process_events(event)
+
+        manager.update(time_delta)
+############################################################################################
         #holding space        
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and wallet.balance >= balls_worth:
@@ -110,8 +142,9 @@ def main():
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)
         wallet.display_wallet()
+        manager.draw_ui(screen)#########################################################
         #win_history.display()
-        ball_value_controller.display()
+        #ball_value_controller.display()
         for box in boxes.boxes:
             box.display_multiplier()
         
@@ -121,8 +154,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    bda.put_hist_in_csv(hist)
-    bda.generate_hist()
+    #bda.put_hist_in_csv(hist)
+    #bda.generate_hist()
     
 if __name__ == '__main__':
     main()

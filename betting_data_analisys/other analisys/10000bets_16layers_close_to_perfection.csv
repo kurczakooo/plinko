@@ -1,0 +1,47 @@
+,BOX,Amount of hits
+0,a,2
+1,b,14
+2,c,44
+3,d,108
+4,e,305
+5,f,709
+6,g,1126
+7,h,1711
+8,i,1934
+9,j,1732
+10,k,1184
+11,l,670
+12,m,293
+13,n,121
+14,o,36
+15,p,9
+16,q,6
+
+balls radius 12 bounciness 0.65 friction 0.3
+pins radius 5 bounciness 0.5 friction 0.5
+
+boudary left 
+        self.vertices_left = [(150, self.height*2),         #bottom left
+            (self.width + 150, self.height*2),   #bottom right
+            (self.width - 335, 0),   #top roght
+            (-335, 0)]         #top left
+        
+        self.body_left = pymunk.Body(body_type= pymunk.Body.STATIC)
+        self.body_left.position = (1000, 10)
+        self.shape_left = pymunk.Poly(self.body_left, self.vertices_left)
+        self.shape_left.elasticity = 1
+        self.shape_left.friction = 0.5
+        self.shape_left.color = (0, 0, 0, 255)
+
+boudary right
+        self.vertices_right = [(-150, self.height*2),         #bottom left
+            (self.width-150, self.height*2),   #bottom right
+            (self.width+335, 0),   #top roght
+            (335, 0)]         #top left
+        
+        self.body_right = pymunk.Body(body_type= pymunk.Body.STATIC)
+        self.body_right.position = (270, 10)
+        self.shape_right = pymunk.Poly(self.body_right, self.vertices_right)
+        self.shape_right.elasticity = 1
+        self.shape_right.friction = 0.5
+        self.shape_right.color = (0, 0, 0, 255)

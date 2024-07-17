@@ -24,7 +24,7 @@ class MultiplierBox:
         self.shape = pymunk.Poly(self.body, self.vertices)
         self.shape.elasticity = 0
         self.shape.friction = 1
-        self.shape.color = (0, 0, 255, 255) if self.is_outer else self.calculate_box_color(pos)
+        self.shape.color = (0, 0, 0, 255) if self.is_outer else self.calculate_box_color(pos)
         self.shape.collision_type = collision_type
         self.space.add(self.body, self.shape)
         
@@ -65,7 +65,7 @@ class MultiplierBox:
     def display_multiplier(self):
         font = pygame.font.SysFont("Arial", 20, True, False)
         
-        surface = font.render(str(self.multiplier), True, (255, 255, 255))
+        surface = font.render(str(self.multiplier if not self.is_outer else ""), True, (255, 255, 255))
 
         center_pos = [self.pos[0] +  self.width/2, self.pos[1] + self.height/2]
 
