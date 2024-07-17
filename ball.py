@@ -16,8 +16,6 @@ class Ball:
         self.shape.color = (255, 0, 0, 255)
         space.add(self.body, self.shape)      
         
-    def collide(self, arbiter, space, data):
-        del self
 
 
 
