@@ -11,7 +11,7 @@ class Wallet:
     def display_wallet(self):
         font = pygame.font.SysFont("Arial", 30, True, False)
         
-        surface = font.render(str(self.balance) + "$", True, (255, 255, 255))
+        surface = font.render(str(round(self.balance, 2)) + "$", True, (255, 255, 255))
 
         self.pos = self.calculate_pos()
 
@@ -27,8 +27,11 @@ class Wallet:
      
         
     def calculate_pos(self):
-        num_of_chars = len(str(self.balance)) + 1
+        num_of_chars = len(str(round(self.balance, 2))) + 1
 
         screen_width = self.screen.get_width()
         pos = [screen_width - num_of_chars * 20, 10]
         return pos
+    
+    
+    

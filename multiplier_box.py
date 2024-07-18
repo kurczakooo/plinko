@@ -12,7 +12,7 @@ class MultiplierBox:
         self.is_outer = is_outer
         self.collision_type = collision_type
         
-        self.multiplier = self.calculate_multipliers()
+        self.multiplier = 0
         
         self.vertices = [(0, self.height*2),         #bottom left
             (self.width, self.height*2),   #bottom right
@@ -54,19 +54,16 @@ class MultiplierBox:
         
         
     
-    def calculate_multipliers(self):
-        #if self.is_outer:
-        #    return '20x'
-        #else:
-            return chr(self.collision_type + 95)
+    def set_multiplier(self, value):
+        self.multiplier = value
           
           
             
     def display_multiplier(self):
-        font = pygame.font.SysFont("Arial", 20, True, False)
+        font = pygame.font.SysFont("Arial", 15, True, False)
         
         surface = font.render(str(self.multiplier if not self.is_outer else ""), True, (255, 255, 255))
 
-        center_pos = [self.pos[0] +  self.width/2, self.pos[1] + self.height/2]
+        center_pos = [self.pos[0] +  self.width/3, self.pos[1] + self.height/1.5]
 
         self.screen.blit(surface, center_pos)

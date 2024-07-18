@@ -41,13 +41,16 @@ board.create_board()
 
 boundaries = Boundaries(space)
 
-boxes = MultiplierBoxesLayer(space, screen, layers)
+risk = ['low', 'medium', 'high']
+
+boxes = MultiplierBoxesLayer(space, screen, layers, risk[2])
 boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
 #ball_value_controller = BetValueController(screen, [1055, 600], 1000)
-
+wallet = Wallet(screen, 100) #SET STARTING CASH  
+balls_worth = 10.0
 
 def collide(arbiter, space, data) -> bool: 
     
@@ -61,6 +64,7 @@ def collide(arbiter, space, data) -> bool:
         if box.shape.collision_type == box_shape.collision_type:
             #print(box.multiplier, end=" ")
             hist[box.multiplier] += 1
+            wallet.update_balance(ball_value=balls_worth, multiplier=box.multiplier)
     
     return True
 
@@ -74,7 +78,7 @@ manager = gui.UIManager((1280, 720))
 
 # Pole tekstowe
 input_rect = pygame.Rect(1030, 680, 140, 32)
-input_box = gui.elements.UITextEntryLine(relative_rect=input_rect, manager=manager)
+input_box = gui.elements.UITextEntryLine(relative_rect=input_rect, manager=manager, initial_text='10.0')
 
 # Przycisk
 submit_button = gui.elements.UIButton(relative_rect=pygame.Rect(1170, 680, 100, 32), 
@@ -94,13 +98,11 @@ for box in boxes.boxes:
 def main():
   
     balls = []
-    balls_worth = 10.0
+    global balls_worth
     
     #vars for holding space spawning balls
     last_ball_time = 0
-    ball_interval = 1 #200
-    
-    wallet = Wallet(screen, 100000) #1000
+    ball_interval = 200 #200   
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
@@ -116,10 +118,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.USEREVENT:##########################################
-                if event.user_type == gui.UI_BUTTON_PRESSED:
-                    if event.ui_element == submit_button:
-                        balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance)
+            if event.type == gui.UI_BUTTON_PRESSED:
+                if event.ui_element == submit_button:
+                    balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance)
 
             manager.process_events(event)
 
@@ -154,8 +155,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    bda.put_hist_in_csv(hist)
-    bda.generate_hist()
+    #bda.put_hist_in_csv(hist)
+    #bda.generate_hist()
     
 if __name__ == '__main__':
     main()
