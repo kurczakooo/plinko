@@ -155,8 +155,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    #bda.put_hist_in_csv(hist)
-    #bda.generate_hist()
+    bda.put_hist_in_csv(hist)
+    bda.generate_hist()
     
 if __name__ == '__main__':
     main()
