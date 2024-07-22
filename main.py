@@ -43,7 +43,7 @@ boundaries = Boundaries(space)
 
 risk = ['low', 'medium', 'high']
 
-boxes = MultiplierBoxesLayer(space, screen, layers, risk[2])
+boxes = MultiplierBoxesLayer(space, screen, layers, risk[0])
 boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
