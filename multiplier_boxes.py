@@ -56,8 +56,106 @@ class MultiplierBoxesLayer :
                     box.set_multiplier(value)
             else:
                 for value, box in zip(multipliers[8]['low'], self.boxes):
+                    box.set_multiplier(value) 
+                    
+        elif self.layers == 9:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[9]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[9]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[9]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[9]['low'], self.boxes):
                     box.set_multiplier(value)
 
+        elif self.layers == 10:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[10]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[10]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[10]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[10]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
+        elif self.layers == 11:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[11]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[11]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[11]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[11]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
+        elif self.layers == 12:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[12]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[12]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[12]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[12]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
+        elif self.layers == 13:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[13]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[13]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[13]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[13]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
+        elif self.layers == 14:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[14]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[14]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[14]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[14]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
+        elif self.layers == 15:
+            if self.risk_level == 'low':
+                for value, box in zip(multipliers[15]['low'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'medium':
+                for value, box in zip(multipliers[15]['medium'], self.boxes):
+                    box.set_multiplier(value)
+            elif self.risk_level == 'high':
+                for value, box in zip(multipliers[15]['high'], self.boxes):
+                    box.set_multiplier(value)
+            else:
+                for value, box in zip(multipliers[15]['low'], self.boxes):
+                    box.set_multiplier(value)
+                    
         elif self.layers == 16:
             if self.risk_level == 'low':
                 for value, box in zip(multipliers[16]['low'], self.boxes):
@@ -71,3 +169,6 @@ class MultiplierBoxesLayer :
             else:
                 for value, box in zip(multipliers[16]['low'], self.boxes):
                     box.set_multiplier(value)
+                    
+        else:
+            raise ValueError('Wrong number of layers!')
