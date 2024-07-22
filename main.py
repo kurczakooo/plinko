@@ -43,7 +43,7 @@ boundaries = Boundaries(space)
 
 risk = ['low', 'medium', 'high']
 
-boxes = MultiplierBoxesLayer(space, screen, layers, risk[0])
+boxes = MultiplierBoxesLayer(space, screen, layers, risk[2])
 boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
@@ -102,7 +102,7 @@ def main():
     
     #vars for holding space spawning balls
     last_ball_time = 0
-    ball_interval = 200 #200   
+    ball_interval = 2 #200   
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 

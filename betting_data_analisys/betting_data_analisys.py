@@ -12,11 +12,12 @@ def put_hist_in_csv(hist):
 def generate_hist():
     df = pd.read_csv('betting_data_analisys/1000bets_16layers.csv')
     
-    keys = df['BOX']
+    keys = [str(i) for i in df['BOX']]
     values = df['Amount of hits']
     
     plt.figure(figsize=(10, 5))
     plt.bar(keys, values, color='skyblue')
+    plt.xticks(keys, keys, )
     plt.xlabel('boxes')
     plt.ylabel('amount of balls')
     plt.title('Histogram of betting results')
