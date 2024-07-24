@@ -12,7 +12,7 @@ def update_bet_value(balls_worth, input, balance):
         return balls_worth
 
 
-class BetValueController:
+class GUImanager:
     def __init__(self, screen, pos, initial_bet_value):
         self.screen = screen
         self.pos = pos

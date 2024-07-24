@@ -4,7 +4,7 @@ from boundaries import Boundaries
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet
 from win_history_display import WinHistoryDisplay
-from bet_value_controller import BetValueController, update_bet_value
+from gui_manager import GUImanager, update_bet_value
 
 import sys 
 import betting_data_analisys.betting_data_analisys as bda
@@ -70,7 +70,7 @@ def collide(arbiter, space, data) -> bool:
 
 
 
-
+gui_manager = Gui
 
 
 # Manager GUI
@@ -145,7 +145,6 @@ def main():
         wallet.display_wallet()
         manager.draw_ui(screen)#########################################################
         #win_history.display()
-        #ball_value_controller.display()
         for box in boxes.boxes:
             box.display_multiplier()
         
