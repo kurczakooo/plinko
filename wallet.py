@@ -34,4 +34,21 @@ class Wallet:
         return pos
     
     
-    
+
+def update_bet_value(balls_worth, input, balance, number_of_balls):
+    print(f'number of balls on the baord = {number_of_balls}')
+    if number_of_balls == 0 and balls_worth != float(input):
+        print(f'zmieniam wartosc kulki na {float(input)}')
+        return float(input)
+    else: return balls_worth
+"""   
+try:
+    value = float(input)
+    if value > balance:
+        return balls_worth
+    else:
+        print(f'zmieniam wartosc kulki na {value}')
+        return value
+except Exception:
+    return balls_worth
+"""

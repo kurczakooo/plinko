@@ -1,16 +1,6 @@
 from ball import pymunk, pygame
 import pygame_gui
 
-def update_bet_value(balls_worth, input, balance):
-    try:
-        value = float(input)
-        if value > balance:
-            return balls_worth
-        else:
-            return value
-    except TypeError:
-        return balls_worth
-
 
 class GUImanager:
     def __init__(self, screen, pos, initial_bet_value):
@@ -42,3 +32,4 @@ class GUImanager:
         
         self.lower_button.draw(self.screen)
         self.raise_button.draw(self.screen)
+        

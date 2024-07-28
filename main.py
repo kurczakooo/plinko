@@ -2,9 +2,9 @@ from ball import pygame, pymunk, Ball
 from board import GameBoard
 from boundaries import Boundaries
 from multiplier_boxes import MultiplierBoxesLayer
-from wallet import Wallet
+from wallet import Wallet, update_bet_value
 from win_history_display import WinHistoryDisplay
-from gui_manager import GUImanager, update_bet_value
+from gui_manager import GUImanager
 
 import sys 
 import betting_data_analisys.betting_data_analisys as bda
@@ -12,11 +12,9 @@ import pygame_gui as gui
 
 """    
 TO DO:
-    - figure out calculate multipliers function, needd boxes pos, and find proportions be
-    tween neighbouring boxes multipliers, i need to differ the boxes with a value signed to
-    each other
     - give player ability to change number of layers in game
-    - make a display and button for controlling balls worth
+    - fix bug with changing the bet value ()
+    - fix bug with balls removal from the 'balls' list in main function
 TUTORIAL ON COLLISIONS:
 https://www.youtube.com/watch?v=cCiXqK9c18g&t
 15.40
@@ -70,7 +68,7 @@ def collide(arbiter, space, data) -> bool:
 
 
 
-gui_manager = Gui
+gui_manager = 1
 
 
 # Manager GUI
@@ -120,7 +118,7 @@ def main():
                 running = False
             if event.type == gui.UI_BUTTON_PRESSED:
                 if event.ui_element == submit_button:
-                    balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance)
+                    balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance, len(balls))
 
             manager.process_events(event)
 
@@ -135,9 +133,9 @@ def main():
                 last_ball_time = current_time         
                
                 
-        for ball in balls:
-            if ball.body.position.y > 720:
-                balls.remove(ball)
+        #for ball in balls:
+        #    if ball.body.position.y > 720:
+        #        balls.remove(ball)
 
         
         screen.fill((0, 0, 0))
