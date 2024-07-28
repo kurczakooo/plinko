@@ -50,6 +50,8 @@ win_history = WinHistoryDisplay(space, screen, 300, 500)
 wallet = Wallet(screen, 100) #SET STARTING CASH  
 balls_worth = 10.0
 
+balls = []
+
 def collide(arbiter, space, data) -> bool: 
     
     ball_shape, box_shape = arbiter.shapes
@@ -57,6 +59,7 @@ def collide(arbiter, space, data) -> bool:
     box_body = box_shape.body
     
     space.remove(ball_body, ball_shape)
+    balls.remove(ball_shape)
     
     for box in boxes.boxes:
         if box.shape.collision_type == box_shape.collision_type:
@@ -94,8 +97,7 @@ for box in boxes.boxes:
     hist[box.multiplier] = 0
 
 def main():
-  
-    balls = []
+
     global balls_worth
     
     #vars for holding space spawning balls
@@ -111,15 +113,20 @@ def main():
     running = True
     while running:
         current_time = pygame.time.get_ticks()
-        
+    
 
+        if len(balls) != 0: submit_button.disable()
+        else: submit_button.enable()
+    
+    
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == gui.UI_BUTTON_PRESSED:
                 if event.ui_element == submit_button:
-                    balls_worth = update_bet_value(balls_worth, input_box.get_text(), wallet.balance, len(balls))
-
+                    balls_worth, display_text = update_bet_value(balls_worth, input_box.get_text(), wallet.balance, len(balls))
+                    input_box.set_text(display_text)
+                    
             manager.process_events(event)
 
         manager.update(time_delta)
@@ -128,13 +135,13 @@ def main():
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and wallet.balance >= balls_worth:
             if current_time - last_ball_time >= ball_interval:
-                balls.append(Ball(12, (640, 50), space))
+                balls.append(Ball(12, (640, 50), space).shape)
                 wallet.buy_ball(balls_worth)   
                 last_ball_time = current_time         
                
                 
         #for ball in balls:
-        #    if ball.body.position.y > 720:
+        #    if ball.body.position.y > 500:
         #        balls.remove(ball)
 
         
@@ -152,8 +159,8 @@ def main():
         clock.tick(60)
         
     pygame.quit()
-    bda.put_hist_in_csv(hist)
-    bda.generate_hist()
+    #bda.put_hist_in_csv(hist)
+    #bda.generate_hist()
     
 if __name__ == '__main__':
     main()
