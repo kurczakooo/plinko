@@ -15,10 +15,14 @@ TO DO:
     - give player ability to change number of layers in game
         -
     - fix the fucking game so that not every player becomes a milionare
+    
+    
+    LAYERS=16 && set RISK=3 && set MONEY=1000 && python main.py
 """ 
 
 layers = os.getenv('LAYERS')
 risk = os.getenv('RISK')
+starting_balance = os.getenv('MONEY')
 
 if layers is not None and risk is not None: layers = int(layers); risk = int(risk)
 
@@ -35,7 +39,7 @@ draw_options = pymunk.pygame_util.DrawOptions(screen)
 #draw_options.shape_kinematic_color = (0, 255, 0, 255)
 
 board = GameBoard(screen, layers, space)
-board.create_board()
+board.create_board(board.layers)
 
 boundaries = Boundaries(space)
 
@@ -47,7 +51,7 @@ boxes.create_bottom_layer(board.pins_pos)
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
 #ball_value_controller = BetValueController(screen, [1055, 600], 1000)
-wallet = Wallet(screen, 100) #SET STARTING CASH  
+wallet = Wallet(screen, float(starting_balance)) 
 balls_worth = wallet.balance/10
 
 balls = []

@@ -20,15 +20,15 @@ class GameBoard:
         return shape
     
     
-    def create_board(self):
-        if self.layers < 8 or self.layers > 16:
+    def create_board(self, layers):
+        if layers < 8 or layers > 16:
             raise ValueError("Number of layers must be between 8 and 16")
         
         pin_num_per_layer = 3
         initial_pos = [640, 80]
         spacing = 40
         
-        for layer in range(self.layers):
+        for layer in range(layers):
             start_x = initial_pos[0] - (pin_num_per_layer - 1) * (spacing / 2)
             for i in range(pin_num_per_layer):
                 pos = (start_x + i * spacing, initial_pos[1])
@@ -36,6 +36,4 @@ class GameBoard:
                 self.pins.append(self.create_static_circle(self.space, pos, 5))
             initial_pos[1] += spacing
             pin_num_per_layer += 1
-            
-    def change_layers(self, number_of_layers):
-        
+       
