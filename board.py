@@ -37,3 +37,5 @@ class GameBoard:
             initial_pos[1] += spacing
             pin_num_per_layer += 1
             
+    def change_layers(self, number_of_layers):
+        

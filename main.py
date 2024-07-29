@@ -6,7 +6,7 @@ from wallet import Wallet, update_bet_value
 from win_history_display import WinHistoryDisplay
 from gui_manager import GUImanager
 
-import sys 
+import os
 import betting_data_analisys.betting_data_analisys as bda
 import pygame_gui as gui
 
@@ -17,7 +17,10 @@ TO DO:
     - fix the fucking game so that not every player becomes a milionare
 """ 
 
-layers = int(sys.argv[1])
+layers = os.getenv('LAYERS')
+risk = os.getenv('RISK')
+
+if layers is not None and risk is not None: layers = int(layers); risk = int(risk)
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -36,9 +39,9 @@ board.create_board()
 
 boundaries = Boundaries(space)
 
-risk = ['low', 'medium', 'high']
+risk_dict = {1:'low', 2:'medium', 3:'high'}
 
-boxes = MultiplierBoxesLayer(space, screen, layers, risk[2])
+boxes = MultiplierBoxesLayer(space, screen, layers, risk_dict[risk])
 boxes.create_bottom_layer(board.pins_pos)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
@@ -87,15 +90,21 @@ def main():
         handler = space.add_collision_handler(1, i + 2) 
         handler.begin = collide
 
-    time_delta = clock.tick(30) / 1000.0
 
     running = True
     while running:
+        time_delta = clock.tick(60) / 1000.0
         current_time = pygame.time.get_ticks()
     
 
-        if len(balls) != 0: gui_manager.bet_submit_button.disable()
-        else: gui_manager.bet_submit_button.enable()
+        if len(balls) != 0: 
+            gui_manager.bet_submit_button.disable()
+            for button in gui_manager.amount_of_layers_buttons:
+                button.disable()
+        else: 
+            gui_manager.bet_submit_button.enable()
+            for button in gui_manager.amount_of_layers_buttons:
+                button.enable()
     
     
         for event in pygame.event.get():
@@ -105,11 +114,15 @@ def main():
                 if event.ui_element == gui_manager.bet_submit_button:
                     balls_worth, display_text = update_bet_value(balls_worth, gui_manager.bet_input_box.get_text(), wallet.balance, len(balls))
                     gui_manager.bet_input_box.set_text(display_text)
+                for button in gui_manager.amount_of_layers_buttons:
+                    if event.ui_element == button:
+                        print(f'{button.text}')
+                    
                     
             gui_manager.manager.process_events(event)
 
         gui_manager.manager.update(time_delta)
-############################################################################################
+
         #holding space        
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE] and wallet.balance >= balls_worth:
@@ -117,25 +130,21 @@ def main():
                 balls.append(Ball(12, (640, 50), space).shape)
                 wallet.buy_ball(balls_worth)   
                 last_ball_time = current_time         
-               
-                
-        #for ball in balls:
-        #    if ball.body.position.y > 500:
-        #        balls.remove(ball)
 
         
         screen.fill((0, 0, 0))
         space.debug_draw(draw_options)
         wallet.display_wallet()
-        gui_manager.manager.draw_ui(screen)#########################################################
+        gui_manager.manager.draw_ui(screen)
         #win_history.display()
         for box in boxes.boxes:
             box.display_multiplier()
         
         
         pygame.display.flip()
+        #pygame.display.update()
         space.step(1/60.0)
-        clock.tick(60)
+        #clock.tick(60)
         
     pygame.quit()
     #bda.put_hist_in_csv(hist)
