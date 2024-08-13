@@ -17,7 +17,7 @@ TO DO:
     - fix the fucking game so that not every player becomes a milionare
     
     
-    LAYERS=16 && set RISK=3 && set MONEY=1000 && python main.py
+    set LAYERS=16 && set RISK=3 && set MONEY=1000 && python main.py
 """ 
 
 layers = os.getenv('LAYERS')
@@ -101,6 +101,7 @@ def main():
         current_time = pygame.time.get_ticks()
     
 
+
         if len(balls) != 0: 
             gui_manager.bet_submit_button.disable()
             for button in gui_manager.amount_of_layers_buttons:
@@ -115,12 +116,18 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == gui.UI_BUTTON_PRESSED:
+                for button in gui_manager.amount_of_layers_buttons:
+                    if event.ui_element == button:
+                        board.delete_board()
+                        board.create_board(int(button.text))
+                        
+                        print(f'{button.text}')
                 if event.ui_element == gui_manager.bet_submit_button:
                     balls_worth, display_text = update_bet_value(balls_worth, gui_manager.bet_input_box.get_text(), wallet.balance, len(balls))
                     gui_manager.bet_input_box.set_text(display_text)
-                for button in gui_manager.amount_of_layers_buttons:
-                    if event.ui_element == button:
-                        print(f'{button.text}')
+                
+                
+                
                     
                     
             gui_manager.manager.process_events(event)

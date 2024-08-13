@@ -17,12 +17,14 @@ class GameBoard:
         shape.friction = 0.5
         shape.color = (255, 255, 255, 255)
         self.space.add(body, shape)
-        return shape
+        return body,shape
     
     
     def create_board(self, layers):
         if layers < 8 or layers > 16:
             raise ValueError("Number of layers must be between 8 and 16")
+        
+        self.layers = layers
         
         pin_num_per_layer = 3
         initial_pos = [640, 80]
@@ -37,3 +39,13 @@ class GameBoard:
             initial_pos[1] += spacing
             pin_num_per_layer += 1
        
+    #def change_layers(self, new_layers):
+    
+    def delete_board(self):
+        for pos, pin in zip(self.pins_pos, self.pins):
+            self.space.remove(pin[0])
+            self.space.remove(pin[1])
+            
+        self.pins_pos.clear()
+        self.pins.clear()
+            
