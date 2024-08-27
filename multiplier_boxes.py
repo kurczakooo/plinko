@@ -16,7 +16,11 @@ class MultiplierBoxesLayer :
 
     
         
-    def create_bottom_layer(self, pins_pos):
+    def create_bottom_layer(self, pins_pos, number_of_boxes):
+        
+        self.number_of_boxes = number_of_boxes
+        self.layers = number_of_boxes - 3
+            
         spacing = 40
         
         first_pin_bottom_layer_pos = pins_pos[len(pins_pos) - self.number_of_boxes + 1]
@@ -40,8 +44,15 @@ class MultiplierBoxesLayer :
         self.set_multipliers()
             
             
+    def delete_bottom_layer(self):
+        for box in self.boxes:
+            self.space.remove(box.body)
+            self.space.remove(box.shape)
+        
+        self.boxes.clear()
             
-    def set_multipliers(self):#REMEMBER TO PUT DOUBL OUTER MULTIPLIERS CAUSE OF INVISIBLE BOXE
+            
+    def set_multipliers(self):#REMEMBER TO PUT DOUBLE OUTER MULTIPLIERS CAUSE OF INVISIBLE BOXE
         global multipliers
         
         if self.layers == 8:

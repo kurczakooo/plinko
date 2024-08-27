@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 #WHEN FINISH THE GAME UNINSTALL PANDAS AND MATPLOTLIB  
@@ -12,14 +13,11 @@ def put_hist_in_csv(hist):
 def generate_hist():
     df = pd.read_csv('betting_data_analisys/1000bets_16layers.csv')
     
-    keys = [str(i) for i in df['BOX']]
-    values = df['Amount of hits']
+    #sns.set_style(style='darkgrid')
     
     plt.figure(figsize=(10, 5))
-    plt.bar(keys, values, color='skyblue')
-    plt.xticks(keys, keys, )
-    plt.xlabel('boxes')
-    plt.ylabel('amount of balls')
+    
+    sns.barplot(x='BOX', y='Amount of hits', data=df, palette='viridis')
     plt.title('Histogram of betting results')
     plt.show()
     

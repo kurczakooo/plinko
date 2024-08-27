@@ -46,7 +46,7 @@ boundaries = Boundaries(space)
 risk_dict = {1:'low', 2:'medium', 3:'high'}
 
 boxes = MultiplierBoxesLayer(space, screen, layers, risk_dict[risk])
-boxes.create_bottom_layer(board.pins_pos)
+boxes.create_bottom_layer(board.pins_pos, layers + 3)
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
@@ -74,6 +74,15 @@ def collide(arbiter, space, data) -> bool:
     return True
 
 
+def change_layer_amount(layers):
+    board.delete_board()
+    board.create_board(layers)
+    boxes.delete_bottom_layer()
+    boxes.create_bottom_layer(board.pins_pos, layers + 3)
+    hist.clear()
+    for box in boxes.boxes:
+        hist[box.multiplier] = 0
+
 
 gui_manager = GUImanager(screen, str(wallet.balance/10))
 
@@ -81,6 +90,9 @@ gui_manager = GUImanager(screen, str(wallet.balance/10))
 hist = {}
 for box in boxes.boxes:
     hist[box.multiplier] = 0
+
+
+
 
 def main():
 
@@ -115,23 +127,17 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                
             if event.type == gui.UI_BUTTON_PRESSED:
                 for button in gui_manager.amount_of_layers_buttons:
                     if event.ui_element == button:
-                        board.delete_board()
-                        board.create_board(int(button.text))
+                        change_layer_amount(int(button.text))
                         
-                        print(f'{button.text}')
                 if event.ui_element == gui_manager.bet_submit_button:
                     balls_worth, display_text = update_bet_value(balls_worth, gui_manager.bet_input_box.get_text(), wallet.balance, len(balls))
                     gui_manager.bet_input_box.set_text(display_text)
-                
-                
-                
-                    
-                    
-            gui_manager.manager.process_events(event)
 
+            gui_manager.manager.process_events(event)
         gui_manager.manager.update(time_delta)
 
         #holding space        
@@ -153,9 +159,7 @@ def main():
         
         
         pygame.display.flip()
-        #pygame.display.update()
         space.step(1/60.0)
-        #clock.tick(60)
         
     pygame.quit()
     #bda.put_hist_in_csv(hist)

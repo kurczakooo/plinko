@@ -39,7 +39,6 @@ class GameBoard:
             initial_pos[1] += spacing
             pin_num_per_layer += 1
        
-    #def change_layers(self, new_layers):
     
     def delete_board(self):
         for pos, pin in zip(self.pins_pos, self.pins):
