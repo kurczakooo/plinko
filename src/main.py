@@ -1,30 +1,34 @@
+# /// script
+# dependencies = [
+#   "pygame",
+#   "pymunk",
+#   "random",
+#   "pygame_gui",
+#   "asyncio"
+# ]
+# ///
+
 from ball import pygame, pymunk, Ball
 from board import GameBoard
 from boundaries import Boundaries
 from multiplier_boxes import MultiplierBoxesLayer
 from wallet import Wallet, update_bet_value
-from win_history_display import WinHistoryDisplay
+#from win_history_display import WinHistoryDisplay
 from gui_manager import GUImanager
 
-import os
-import betting_data_analisys.betting_data_analisys as bda
+import asyncio
+#import betting_data_analisys.betting_data_analisys as bda
 import pygame_gui as gui
 
 """    
 TO DO:
-    - give player ability to change number of layers in game
-        -
     - fix the fucking game so that not every player becomes a milionare
-    
-    
-    set LAYERS=16 && set RISK=3 && set MONEY=1000 && python main.py
 """ 
+print('SSSSSSSSSSSSSSSSSSSSTTTTTTTTTTTTTTAAAAAAAAAAARRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTT')
 
-layers = os.getenv('LAYERS')
-risk = os.getenv('RISK')
-starting_balance = os.getenv('MONEY')
-
-if layers is not None and risk is not None: layers = int(layers); risk = int(risk)
+layers = 16
+risk = 'high'
+starting_balance = 1000
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -43,12 +47,10 @@ board.create_board(board.layers)
 
 boundaries = Boundaries(space)
 
-risk_dict = {1:'low', 2:'medium', 3:'high'}
+boxes = MultiplierBoxesLayer(space, screen, layers, risk)
+boxes.create_bottom_layer(board.pins_pos, layers + 3, risk)
 
-boxes = MultiplierBoxesLayer(space, screen, layers, risk_dict[risk])
-boxes.create_bottom_layer(board.pins_pos, layers + 3, risk_dict[risk])
-
-win_history = WinHistoryDisplay(space, screen, 300, 500)
+#win_history = WinHistoryDisplay(space, screen, 300, 500)
 
 #ball_value_controller = BetValueController(screen, [1055, 600], 1000)
 wallet = Wallet(screen, float(starting_balance)) 
@@ -68,7 +70,7 @@ def collide(arbiter, space, data) -> bool:
     for box in boxes.boxes:
         if box.shape.collision_type == box_shape.collision_type:
             #print(box.multiplier, end=" ")
-            hist[box.multiplier] += 1
+            #hist[box.multiplier] += 1
             wallet.update_balance(ball_value=balls_worth, multiplier=box.multiplier)
     
     return True
@@ -78,32 +80,32 @@ def change_layer_amount(layers):
     board.delete_board()
     board.create_board(layers)
     boxes.delete_bottom_layer()
-    boxes.create_bottom_layer(board.pins_pos, layers + 3, risk_dict[risk])
-    hist.clear()
-    for box in boxes.boxes:
-        hist[box.multiplier] = 0
+    boxes.create_bottom_layer(board.pins_pos, layers + 3, risk)
+    #hist.clear()
+    #for box in boxes.boxes:
+    #    hist[box.multiplier] = 0
 
 
 def change_risk_level(risk):
     global layers
     boxes.delete_bottom_layer()
     boxes.create_bottom_layer(board.pins_pos, layers + 3, risk)
-    hist.clear()
-    for box in boxes.boxes:
-        hist[box.multiplier] = 0
+    #hist.clear()
+    #for box in boxes.boxes:
+    #    hist[box.multiplier] = 0
 
 
 gui_manager = GUImanager(screen, str(wallet.balance/10))
 
 
-hist = {}
-for box in boxes.boxes:
-    hist[box.multiplier] = 0
+#hist = {}
+#for box in boxes.boxes:
+#    hist[box.multiplier] = 0
 
 
 
 
-def main():
+async def main():
 
     global balls_worth
     
@@ -183,9 +185,11 @@ def main():
         pygame.display.flip()
         space.step(1/60.0)
         
+        await asyncio.sleep(0)
+        
     pygame.quit()
     #bda.put_hist_in_csv(hist)
     #bda.generate_hist()
     
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())

@@ -1,4 +1,4 @@
-from ball import pymunk, pygame
+from ball import pygame
 import pygame_gui as gui
 
 

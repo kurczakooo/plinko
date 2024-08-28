@@ -1,7 +1,6 @@
 from ball import pymunk
 from multiplier_box import MultiplierBox
 from multipliers import multipliers
-import pymunk.pygame_util
 
 class MultiplierBoxesLayer :
     
