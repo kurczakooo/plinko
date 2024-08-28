@@ -16,10 +16,11 @@ class MultiplierBoxesLayer :
 
     
         
-    def create_bottom_layer(self, pins_pos, number_of_boxes):
+    def create_bottom_layer(self, pins_pos, number_of_boxes, risk):
         
         self.number_of_boxes = number_of_boxes
         self.layers = number_of_boxes - 3
+        self.risk_level = risk
             
         spacing = 40
         

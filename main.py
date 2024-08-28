@@ -46,7 +46,7 @@ boundaries = Boundaries(space)
 risk_dict = {1:'low', 2:'medium', 3:'high'}
 
 boxes = MultiplierBoxesLayer(space, screen, layers, risk_dict[risk])
-boxes.create_bottom_layer(board.pins_pos, layers + 3)
+boxes.create_bottom_layer(board.pins_pos, layers + 3, risk_dict[risk])
 
 win_history = WinHistoryDisplay(space, screen, 300, 500)
 
@@ -78,7 +78,16 @@ def change_layer_amount(layers):
     board.delete_board()
     board.create_board(layers)
     boxes.delete_bottom_layer()
-    boxes.create_bottom_layer(board.pins_pos, layers + 3)
+    boxes.create_bottom_layer(board.pins_pos, layers + 3, risk_dict[risk])
+    hist.clear()
+    for box in boxes.boxes:
+        hist[box.multiplier] = 0
+
+
+def change_risk_level(risk):
+    global layers
+    boxes.delete_bottom_layer()
+    boxes.create_bottom_layer(board.pins_pos, layers + 3, risk)
     hist.clear()
     for box in boxes.boxes:
         hist[box.multiplier] = 0
@@ -115,13 +124,18 @@ def main():
 
 
         if len(balls) != 0: 
+            for button in gui_manager.amount_of_layers_buttons: button.disable()
+            for button in gui_manager.risk_buttons: button.disable() 
+            gui_manager.bet_input_box.disable()
             gui_manager.bet_submit_button.disable()
-            for button in gui_manager.amount_of_layers_buttons:
-                button.disable()
+
         else: 
+            for button in gui_manager.amount_of_layers_buttons: button.enable()
+            for button in gui_manager.risk_buttons: button.enable() 
+            gui_manager.bet_input_box.enable()
             gui_manager.bet_submit_button.enable()
-            for button in gui_manager.amount_of_layers_buttons:
-                button.enable()
+            
+            
     
     
         for event in pygame.event.get():
@@ -129,9 +143,17 @@ def main():
                 running = False
                 
             if event.type == gui.UI_BUTTON_PRESSED:
+                global layers
                 for button in gui_manager.amount_of_layers_buttons:
                     if event.ui_element == button:
+                        layers = int(button.text)
                         change_layer_amount(int(button.text))
+                
+                for button in gui_manager.risk_buttons:
+                    if event.ui_element == button:
+                        new_risk = button.text.split()[0]
+                        risk = new_risk
+                        change_risk_level(risk)
                         
                 if event.ui_element == gui_manager.bet_submit_button:
                     balls_worth, display_text = update_bet_value(balls_worth, gui_manager.bet_input_box.get_text(), wallet.balance, len(balls))
