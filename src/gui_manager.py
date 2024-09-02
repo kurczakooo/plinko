@@ -1,12 +1,12 @@
 from ball import pygame
 import pygame_gui as gui
-
+import i18n
 
 class GUImanager:
     def __init__(self, screen, initial_bet_value:str):
         self.screen = screen
         
-        self.manager = gui.UIManager((self.screen.width, self.screen.height))
+        self.manager = gui.UIManager((1280, 720))
         
         self.bet_input_rect = pygame.Rect(1010, 680, 140, 32)    
         self.bet_input_box = gui.elements.UITextEntryLine(relative_rect=self.bet_input_rect, manager=self.manager, initial_text=initial_bet_value)

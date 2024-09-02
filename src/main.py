@@ -1,10 +1,10 @@
 # /// script
 # dependencies = [
-#   "pygame",
+#   "pygame-ce",
+#   "pygame-gui",
+#   "python-i18n",
+#   "cffi",
 #   "pymunk",
-#   "random",
-#   "pygame_gui",
-#   "asyncio"
 # ]
 # ///
 
@@ -19,6 +19,7 @@ from gui_manager import GUImanager
 import asyncio
 #import betting_data_analisys.betting_data_analisys as bda
 import pygame_gui as gui
+import i18n
 
 """    
 TO DO:
