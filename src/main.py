@@ -24,8 +24,9 @@ import i18n
 """    
 TO DO:
     - fix the fucking game so that not every player becomes a milionare
+    - dont allow to bet fir 0 $
 """ 
-print('SSSSSSSSSSSSSSSSSSSSTTTTTTTTTTTTTTAAAAAAAAAAARRRRRRRRRRRRRRRRRTTTTTTTTTTTTTTTTTT')
+
 
 layers = 16
 risk = 'high'
