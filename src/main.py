@@ -24,7 +24,7 @@ import i18n
 
 layers = 16
 risk = 'high'
-starting_balance = 1000000000000
+starting_balance = 100
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))

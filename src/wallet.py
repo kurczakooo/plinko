@@ -39,8 +39,8 @@ def update_bet_value(balls_worth, input, balance, number_of_balls):
     
     try: 
         new_value = float(input)
-        if number_of_balls == 0 and balls_worth != new_value and new_value <= balance:
-            print(f'bet value changed to: {new_value}')
+        if number_of_balls == 0 and balls_worth != new_value and new_value <= balance and new_value != 0:
+            #print(f'bet value changed to: {new_value}')
             return new_value, str(new_value)
         else: return balls_worth, str(balls_worth)
     
