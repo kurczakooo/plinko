@@ -1,3 +1,7 @@
+# personal files
+personal/
+betting_data_analisys/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
