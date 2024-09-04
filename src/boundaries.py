@@ -14,7 +14,7 @@ class Boundaries:
         self.body_left = pymunk.Body(body_type= pymunk.Body.STATIC)
         self.body_left.position = (1000, 10)
         self.shape_left = pymunk.Poly(self.body_left, self.vertices_left)
-        self.shape_left.elasticity = 1
+        self.shape_left.elasticity = 10
         self.shape_left.friction = 0.5
         self.shape_left.color = (0, 0, 0, 255)
         
@@ -30,7 +30,7 @@ class Boundaries:
         self.body_right = pymunk.Body(body_type= pymunk.Body.STATIC)
         self.body_right.position = (270, 10)
         self.shape_right = pymunk.Poly(self.body_right, self.vertices_right)
-        self.shape_right.elasticity = 1
+        self.shape_right.elasticity = 10
         self.shape_right.friction = 0.5
         self.shape_right.color = (0, 0, 0, 255)
         

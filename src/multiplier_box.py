@@ -64,6 +64,15 @@ class MultiplierBox:
         
         surface = font.render(str(self.multiplier if not self.is_outer else ""), True, (255, 255, 255))
 
-        center_pos = [self.pos[0] +  self.width/3, self.pos[1] + self.height/1.5]
+        char_amount = len(str(self.multiplier))
+        
+        if char_amount in [1, 2]:
+            pos = [self.pos[0] +  self.width/3, self.pos[1] + self.height/1.5]
+        elif char_amount == 3:
+            pos = [self.pos[0] +  self.width/4.5, self.pos[1] + self.height/1.5]
+        elif char_amount ==4:
+            pos = [self.pos[0] +  self.width/7.5, self.pos[1] + self.height/1.5]
+        else:
+            raise Exception("Multiplier display error")
 
-        self.screen.blit(surface, center_pos)
+        self.screen.blit(surface, pos)

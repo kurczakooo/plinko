@@ -21,16 +21,10 @@ import asyncio
 import pygame_gui as gui
 import i18n
 
-"""    
-TO DO:
-    - fix the fucking game so that not every player becomes a milionare
-    - dont allow to bet fir 0 $
-""" 
-
 
 layers = 16
 risk = 'high'
-starting_balance = 1000
+starting_balance = 1000000000000
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -54,7 +48,6 @@ boxes.create_bottom_layer(board.pins_pos, layers + 3, risk)
 
 #win_history = WinHistoryDisplay(space, screen, 300, 500)
 
-#ball_value_controller = BetValueController(screen, [1055, 600], 1000)
 wallet = Wallet(screen, float(starting_balance)) 
 balls_worth = wallet.balance/10
 
@@ -113,7 +106,7 @@ async def main():
     
     #vars for holding space spawning balls
     last_ball_time = 0
-    ball_interval = 2 #200   
+    ball_interval = 200 #200   
     
     for i in range(boxes.number_of_boxes):
         handler = space.add_collision_handler(1, i + 2) 
