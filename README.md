@@ -1,4 +1,4 @@
-# playplinko.pl
+# Check out the game here -> [playplinko.pl](playplinko.pl)
 
 ### __TO DO__ ❌✅
 
